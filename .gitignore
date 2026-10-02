@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# local config with your org's client_id
+config.yaml
+auth_code.txt
+
+# downloaded data
+data/

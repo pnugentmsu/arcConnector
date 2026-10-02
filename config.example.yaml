@@ -1,0 +1,41 @@
+# Copy this file to config.yaml and fill in your organization's details.
+# config.yaml is gitignored so your client_id / org URL don't get committed.
+
+organization_url: https://yourorg.maps.arcgis.com
+client_id: YOUR_APP_CLIENT_ID   # see README.md "Getting a client_id" section
+output_dir: ./data
+profile: arc_connector          # name for the cached login profile
+
+items:
+  # A Field Maps feature layer (points/lines/polygons all work the same way -
+  # geometry type is auto-detected). One item per sublayer in the map's
+  # feature service, e.g. .../FeatureServer/0, /1, /2 for point/line/polygon
+  # layers collected in the same map.
+  - name: site_points
+    type: feature
+    url: https://services.arcgis.com/XXXX/arcgis/rest/services/FieldSurvey/FeatureServer/0
+    format: shapefile
+    where: "1=1"              # optional SQL filter, defaults to all features
+    out_sr: 4326                # optional output spatial reference (WKID)
+    include_attachments: true   # pull photos taken in Field Maps for these features
+                                 # saved to ./data/site_points_attachments/, with an
+                                 # index CSV mapping each photo back to its feature OBJECTID
+
+  - name: site_lines
+    type: feature
+    url: https://services.arcgis.com/XXXX/arcgis/rest/services/FieldSurvey/FeatureServer/1
+    format: shapefile
+
+  - name: site_polygons
+    type: feature
+    url: https://services.arcgis.com/XXXX/arcgis/rest/services/FieldSurvey/FeatureServer/2
+    format: shapefile
+
+  # A true raster image service (e.g. orthoimagery/basemap tiles), as
+  # opposed to photos attached to Field Maps features - exported to GeoTIFF.
+  - name: aerial_imagery
+    type: image
+    url: https://services.arcgis.com/XXXX/arcgis/rest/services/Imagery/ImageServer
+    format: tiff
+    extent: [-105.3, 39.9, -105.2, 40.0]  # [xmin, ymin, xmax, ymax] in out_sr/service units
+    size: [4096, 4096]                     # output pixel width/height
